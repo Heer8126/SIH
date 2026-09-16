@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Compass, Mail, MapPin, Phone, ExternalLink, ShieldCheck } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Compass, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
 
 export const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-ncpor-navy text-slate-300 border-t border-slate-800 text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -17,43 +20,43 @@ export const Footer = () => {
               <span className="font-bold text-lg text-white tracking-tight">NCPOR</span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
-              National Centre for Polar and Ocean Research (NCPOR), Headquartered in Vasco da Gama, Goa, is an autonomous R&D institution under the Ministry of Earth Sciences, Govt. of India.
+              {t('about.sub')}
             </p>
             <div className="flex items-center gap-2 text-xs text-teal-400">
               <ShieldCheck className="w-4 h-4 text-teal-300" />
-              <span>MoES PACER Scheme Facility</span>
+              <span>{t('header.pacer_scheme')}</span>
             </div>
           </div>
 
           {/* Col 2: Public Navigation */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 border-b border-slate-800 pb-2 mb-3">
-              Portal Services
+              {t('footer.services')}
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
               <li>
                 <Link to="/repository" className="hover:text-teal-300 transition-colors">
-                  Scientific Repository & Data
+                  {t('nav.repository')}
                 </Link>
               </li>
               <li>
                 <Link to="/media" className="hover:text-teal-300 transition-colors">
-                  Media & Science Outreach
+                  {t('nav.media')}
                 </Link>
               </li>
               <li>
                 <Link to="/map" className="hover:text-teal-300 transition-colors">
-                  Interactive Expedition Map
+                  {t('nav.map')}
                 </Link>
               </li>
               <li>
                 <Link to="/about" className="hover:text-teal-300 transition-colors">
-                  Institutional Activities & Timeline
+                  {t('nav.about')}
                 </Link>
               </li>
               <li>
                 <Link to="/admin/login" className="hover:text-teal-300 transition-colors">
-                  Administrator Portal
+                  {t('nav.admin')}
                 </Link>
               </li>
             </ul>
@@ -62,7 +65,7 @@ export const Footer = () => {
           {/* Col 3: Research Domains */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 border-b border-slate-800 pb-2 mb-3">
-              Research Frontiers
+              {t('footer.frontiers')}
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
               <li>Antarctic Cryosphere & Climate</li>
@@ -76,12 +79,12 @@ export const Footer = () => {
           {/* Col 4: Contact & Location */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 border-b border-slate-800 pb-2 mb-3">
-              Contact Headquarters
+              {t('footer.contact_hq')}
             </h4>
             <div className="space-y-2.5 text-xs text-slate-400">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
-                <span>Headland Sada, Vasco da Gama, Goa 403804, India</span>
+                <span>{t('footer.address')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-teal-400 shrink-0" />
@@ -98,9 +101,9 @@ export const Footer = () => {
 
         {/* Bottom copyright line */}
         <div className="mt-12 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© 2026 National Centre for Polar and Ocean Research (NCPOR). Designed for Smart India Hackathon.</p>
+          <p>{t('footer.rights')}</p>
           <div className="flex items-center gap-4">
-            <span>MoES Govt. of India</span>
+            <span>{t('header.moes')}</span>
             <span>•</span>
             <span>Open Data Policy</span>
             <span>•</span>

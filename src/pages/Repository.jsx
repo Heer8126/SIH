@@ -1,10 +1,12 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Search, Filter, RotateCcw, ArrowRight, Grid, List, Download, Eye, FileText, Database, ShieldAlert, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Search, RotateCcw, ArrowRight, Grid, List, Database, ShieldAlert } from 'lucide-react';
 import { REPOSITORY_ITEMS } from '../data/repositoryData';
 import { TypeBadge, RegionBadge } from '../components/common/Badge';
 
 export const Repository = () => {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 
   // State filters
@@ -15,7 +17,6 @@ export const Repository = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState('grid');
 
-  // Sync state with URL search params when changed from external navigation
   useEffect(() => {
     const q = searchParams.get('search');
     const t = searchParams.get('type');
@@ -31,7 +32,6 @@ export const Repository = () => {
 
   const filteredItems = useMemo(() => {
     return REPOSITORY_ITEMS.filter((item) => {
-      // Search match
       const query = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !query ||
@@ -40,13 +40,8 @@ export const Repository = () => {
         item.author.toLowerCase().includes(query) ||
         item.tags.some((t) => t.toLowerCase().includes(query));
 
-      // Type match
       const matchesType = selectedType === 'All' || item.type === selectedType;
-
-      // Region match
       const matchesRegion = selectedRegion === 'All' || item.region === selectedRegion;
-
-      // Year match
       const matchesYear = selectedYear === 'All' || item.year.toString() === selectedYear;
 
       return matchesSearch && matchesType && matchesRegion && matchesYear;
@@ -75,17 +70,17 @@ export const Repository = () => {
       <div className="border-b border-slate-200 pb-5">
         <div className="flex items-center gap-2 text-xs font-bold text-teal-700 uppercase tracking-wider">
           <Database className="w-4 h-4" />
-          <span>National Polar Data Infrastructure</span>
+          <span>{t('repository.tag')}</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
-          NCPOR Scientific Repository & Knowledge Archive
+          {t('repository.title')}
         </h1>
         <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
-          Access peer-reviewed publications, oceanographic datasets, field expedition logbooks, aerial drone photogrammetry, and public dissemination media under India's PACER initiative.
+          {t('repository.sub')}
         </p>
       </div>
 
-      {/* Control Panel: Search & Filters */}
+      {/* Control Panel */}
       <div className="bg-white rounded-xl border border-slate-200 p-5 space-y-4 shadow-xs">
         
         {/* Search Row */}
@@ -96,7 +91,7 @@ export const Repository = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by keyword, expedition name (e.g. 43rd IAE), scientist, or DOI..."
+              placeholder={t('repository.search_placeholder')}
               className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white"
             />
           </div>
@@ -107,10 +102,10 @@ export const Repository = () => {
               onChange={(e) => setSortBy(e.target.value)}
               className="px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
-              <option value="newest">Sort: Newest First</option>
-              <option value="oldest">Sort: Oldest First</option>
-              <option value="title">Sort: Title A-Z</option>
-              <option value="downloads">Sort: Most Downloaded</option>
+              <option value="newest">{t('repository.sort_newest')}</option>
+              <option value="oldest">{t('repository.sort_oldest')}</option>
+              <option value="title">{t('repository.sort_title')}</option>
+              <option value="downloads">{t('repository.sort_downloads')}</option>
             </select>
 
             <div className="flex items-center border border-slate-200 rounded-lg bg-slate-50 p-1">
@@ -134,31 +129,28 @@ export const Repository = () => {
 
         {/* Filter Pills */}
         <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-slate-100 text-xs">
-          
           <div className="flex flex-wrap items-center gap-3">
-            {/* Type Filter */}
             <div className="flex items-center gap-1.5">
-              <span className="font-bold text-slate-700">Type:</span>
+              <span className="font-bold text-slate-700">{t('repository.filter_type')}</span>
               <div className="flex flex-wrap gap-1">
-                {types.map((t) => (
+                {types.map((tItem) => (
                   <button
-                    key={t}
-                    onClick={() => setSelectedType(t)}
+                    key={tItem}
+                    onClick={() => setSelectedType(tItem)}
                     className={`px-2.5 py-1 rounded-md transition-colors ${
-                      selectedType === t
+                      selectedType === tItem
                         ? 'bg-ncpor-navy text-white font-semibold'
                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                     }`}
                   >
-                    {t}
+                    {tItem}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Region Filter */}
             <div className="flex items-center gap-1.5 pl-2 border-l border-slate-200">
-              <span className="font-bold text-slate-700">Region:</span>
+              <span className="font-bold text-slate-700">{t('repository.filter_region')}</span>
               <div className="flex gap-1">
                 {regions.map((r) => (
                   <button
@@ -176,9 +168,8 @@ export const Repository = () => {
               </div>
             </div>
 
-            {/* Year Filter */}
             <div className="flex items-center gap-1.5 pl-2 border-l border-slate-200">
-              <span className="font-bold text-slate-700">Year:</span>
+              <span className="font-bold text-slate-700">{t('repository.filter_year')}</span>
               <select
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(e.target.value)}
@@ -191,17 +182,15 @@ export const Repository = () => {
             </div>
           </div>
 
-          {/* Reset Filters */}
           {(searchQuery || selectedType !== 'All' || selectedRegion !== 'All' || selectedYear !== 'All') && (
             <button
               onClick={resetFilters}
               className="inline-flex items-center gap-1 text-xs font-semibold text-rose-600 hover:text-rose-800"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset Filters</span>
+              <span>{t('repository.reset_filters')}</span>
             </button>
           )}
-
         </div>
 
       </div>
@@ -218,19 +207,18 @@ export const Repository = () => {
           <div className="w-12 h-12 bg-slate-100 text-slate-500 rounded-full flex items-center justify-center mx-auto">
             <ShieldAlert className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-slate-900">No matching repository items found</h3>
+          <h3 className="text-base font-bold text-slate-900">{t('repository.empty_title')}</h3>
           <p className="text-xs text-slate-600 leading-relaxed">
-            We couldn't find any resources matching your search criteria. Try clearing search filters or searching for general keywords like "Antarctic", "IndARC", or "Dataset".
+            {t('repository.empty_sub')}
           </p>
           <button
             onClick={resetFilters}
             className="px-4 py-2 bg-teal-700 text-white rounded-md text-xs font-semibold hover:bg-teal-800 transition-colors"
           >
-            Clear All Search Filters
+            {t('repository.clear_filters_btn')}
           </button>
         </div>
       ) : (
-        /* Results Layout */
         viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredItems.map((item) => (
@@ -278,7 +266,7 @@ export const Repository = () => {
                     to={`/repository/${item.id}`}
                     className="font-semibold text-teal-700 hover:underline flex items-center gap-1"
                   >
-                    <span>View Record</span>
+                    <span>{t('repository.view_record')}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
@@ -286,7 +274,6 @@ export const Repository = () => {
             ))}
           </div>
         ) : (
-          /* List View */
           <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100 overflow-hidden shadow-xs">
             {filteredItems.map((item) => (
               <div key={item.id} className="p-5 hover:bg-slate-50/80 transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -314,7 +301,7 @@ export const Repository = () => {
                     to={`/repository/${item.id}`}
                     className="px-3 py-1.5 bg-teal-700 text-white rounded text-xs font-semibold hover:bg-teal-800 transition-colors"
                   >
-                    Details
+                    {t('repository.view_details')}
                   </Link>
                 </div>
               </div>

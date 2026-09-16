@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Newspaper, ThumbsUp, Share2, MessageSquare, ArrowRight, Filter, Compass, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Newspaper, ThumbsUp, Share2, ArrowRight, Clock } from 'lucide-react';
 import { MEDIA_POSTS } from '../data/mediaData';
 import { RegionBadge } from '../components/common/Badge';
 
 export const MediaFeed = () => {
+  const { t } = useTranslation();
   const [selectedType, setSelectedType] = useState('All');
   const [selectedRegion, setSelectedRegion] = useState('All');
   const [likesState, setLikesState] = useState(() => {
@@ -38,13 +40,13 @@ export const MediaFeed = () => {
       <div className="border-b border-slate-200 pb-5">
         <div className="flex items-center gap-2 text-xs font-bold text-teal-700 uppercase tracking-wider">
           <Newspaper className="w-4 h-4" />
-          <span>Science Outreach & Dissemination</span>
+          <span>{t('media.tag')}</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
-          PolarConnect Media & Science Feed
+          {t('media.title')}
         </h1>
         <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
-          Eyewitness stories, photo dispatches, field documentaries, and outreach articles detailing Indian scientific expeditions across Antarctica, the Arctic, and the Himalayas.
+          {t('media.sub')}
         </p>
       </div>
 
@@ -52,26 +54,26 @@ export const MediaFeed = () => {
       <div className="bg-white rounded-xl border border-slate-200 p-4 flex flex-wrap items-center justify-between gap-4 shadow-xs text-xs">
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-700">Content Type:</span>
+            <span className="font-bold text-slate-700">{t('media.filter_type')}</span>
             <div className="flex flex-wrap gap-1">
-              {types.map((t) => (
+              {types.map((tItem) => (
                 <button
-                  key={t}
-                  onClick={() => setSelectedType(t)}
+                  key={tItem}
+                  onClick={() => setSelectedType(tItem)}
                   className={`px-2.5 py-1 rounded-md font-medium transition-colors ${
-                    selectedType === t
+                    selectedType === tItem
                       ? 'bg-ncpor-navy text-white font-semibold'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
-                  {t}
+                  {tItem}
                 </button>
               ))}
             </div>
           </div>
 
           <div className="flex items-center gap-2 pl-3 border-l border-slate-200">
-            <span className="font-bold text-slate-700">Region:</span>
+            <span className="font-bold text-slate-700">{t('media.filter_region')}</span>
             <div className="flex gap-1">
               {regions.map((r) => (
                 <button
@@ -96,14 +98,13 @@ export const MediaFeed = () => {
       {/* Main Feed Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Main Feed (2 Cols) */}
+        {/* Main Feed */}
         <div className="lg:col-span-2 space-y-8">
           {filteredPosts.map((post) => (
             <article
               key={post.id}
               className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs hover:border-slate-300 transition-all space-y-4"
             >
-              {/* Author & Header */}
               <div className="p-5 pb-0 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <img
@@ -124,14 +125,12 @@ export const MediaFeed = () => {
                 </div>
               </div>
 
-              {/* Title & Headline */}
               <div className="px-5 space-y-2">
                 <h2 className="text-lg font-bold text-slate-900 leading-snug">
                   {post.title}
                 </h2>
               </div>
 
-              {/* Cover Image */}
               <div className="h-72 sm:h-96 w-full overflow-hidden bg-slate-950">
                 <img
                   src={post.image}
@@ -140,7 +139,6 @@ export const MediaFeed = () => {
                 />
               </div>
 
-              {/* Caption & Content Snippet */}
               <div className="px-5 space-y-3 text-xs text-slate-700 leading-relaxed">
                 <p className="font-medium text-slate-800">{post.caption}</p>
                 <div className="bg-slate-50 p-4 rounded-lg border border-slate-100 whitespace-pre-line text-slate-600">
@@ -148,7 +146,6 @@ export const MediaFeed = () => {
                 </div>
               </div>
 
-              {/* Tags & Related Link */}
               <div className="px-5 flex flex-wrap items-center justify-between gap-3 text-xs border-t border-slate-100 pt-3">
                 <div className="flex flex-wrap gap-1">
                   {post.tags.map((tag) => (
@@ -163,13 +160,12 @@ export const MediaFeed = () => {
                     to={`/repository/${post.relatedReportId}`}
                     className="inline-flex items-center gap-1 font-bold text-teal-700 hover:text-teal-900"
                   >
-                    <span>View Scientific Dataset/Report</span>
+                    <span>{t('media.view_dataset')}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 )}
               </div>
 
-              {/* Interactive Engagement Bar */}
               <div className="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
                 <div className="flex items-center gap-4">
                   <button
@@ -177,11 +173,11 @@ export const MediaFeed = () => {
                     className="flex items-center gap-1.5 hover:text-teal-700 transition-colors"
                   >
                     <ThumbsUp className="w-4 h-4" />
-                    <span>{likesState[post.id]} Likes</span>
+                    <span>{likesState[post.id]} {t('media.likes')}</span>
                   </button>
                   <div className="flex items-center gap-1.5">
                     <Share2 className="w-4 h-4" />
-                    <span>{post.shares} Shares</span>
+                    <span>{post.shares} {t('media.shares')}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
@@ -193,12 +189,11 @@ export const MediaFeed = () => {
           ))}
         </div>
 
-        {/* Right Sidebar (1 Col): Outreach Initiatives & Newsletter */}
+        {/* Right Sidebar */}
         <div className="space-y-6">
-          
           <div className="bg-ncpor-navy text-white rounded-xl p-6 border border-slate-800 space-y-4 shadow-md">
             <h3 className="text-xs font-bold uppercase tracking-wider text-teal-400 border-b border-slate-800 pb-2">
-              National Science Engagement
+              {t('media.national_engagement')}
             </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
               NCPOR conducts annual university outreach lectures, student polar essay contests, and public exhibitions on National Science Day and World Oceans Day.
@@ -214,7 +209,7 @@ export const MediaFeed = () => {
 
           <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-4 shadow-xs">
             <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">
-              Trending Science Topics
+              {t('media.trending_topics')}
             </h3>
             <div className="space-y-2 text-xs">
               <div className="p-2 hover:bg-slate-50 rounded">
@@ -231,7 +226,6 @@ export const MediaFeed = () => {
               </div>
             </div>
           </div>
-
         </div>
 
       </div>

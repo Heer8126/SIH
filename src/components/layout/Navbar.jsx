@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Menu, X, Shield, Search, Snowflake, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Menu, X, Shield, Search, Snowflake } from 'lucide-react';
+import { LanguageSwitcher } from '../common/LanguageSwitcher';
 
 export const Navbar = () => {
+  const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { label: 'Home', path: '/' },
-    { label: 'Repository', path: '/repository' },
-    { label: 'Media & Outreach', path: '/media' },
-    { label: 'Expedition Map', path: '/map' },
-    { label: 'About NCPOR', path: '/about' },
+    { label: t('nav.home'), path: '/' },
+    { label: t('nav.repository'), path: '/repository' },
+    { label: t('nav.media'), path: '/media' },
+    { label: t('nav.map'), path: '/map' },
+    { label: t('nav.about'), path: '/about' },
   ];
 
   return (
@@ -31,7 +34,7 @@ export const Navbar = () => {
                 </span>
               </div>
               <p className="text-[10px] text-slate-400 leading-none">
-                Integrated Polar Outreach & Knowledge Portal
+                {t('nav.subtitle')}
               </p>
             </div>
           </Link>
@@ -58,10 +61,13 @@ export const Navbar = () => {
 
           {/* Right Action Buttons */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Language Switcher */}
+            <LanguageSwitcher />
+
             <Link
               to="/repository"
               className="p-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
-              title="Search Repository"
+              title={t('nav.repository')}
             >
               <Search className="w-4 h-4" />
             </Link>
@@ -71,12 +77,13 @@ export const Navbar = () => {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold bg-slate-800 text-teal-300 border border-teal-900 hover:bg-teal-950 hover:border-teal-700 transition-all shadow-xs"
             >
               <Shield className="w-3.5 h-3.5 text-teal-400" />
-              <span>Admin Portal</span>
+              <span>{t('nav.admin')}</span>
             </Link>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile menu controls */}
+          <div className="md:hidden flex items-center gap-2">
+            <LanguageSwitcher />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none"
@@ -108,14 +115,14 @@ export const Navbar = () => {
               {item.label}
             </NavLink>
           ))}
-          <div className="pt-3 border-t border-slate-800">
+          <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
             <Link
               to="/admin/login"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center justify-center gap-2 w-full py-2.5 rounded-md text-sm font-semibold bg-teal-900 text-teal-200 border border-teal-700"
             >
               <Shield className="w-4 h-4 text-teal-300" />
-              <span>Admin Login</span>
+              <span>{t('nav.admin')}</span>
             </Link>
           </div>
         </div>

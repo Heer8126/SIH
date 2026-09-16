@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ArrowRight, FileText, Database, Compass, Radio, BookOpen, Layers, Award, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Search, ArrowRight, Database, Compass, ChevronRight } from 'lucide-react';
 import { REPOSITORY_ITEMS } from '../data/repositoryData';
 import { MEDIA_POSTS } from '../data/mediaData';
 import { POLAR_STATIONS } from '../data/expeditions';
 import { TypeBadge, RegionBadge } from '../components/common/Badge';
 
+/**
+ * NOTE: For this demo/prototype build, static UI strings are fully translated via i18next (English & Hindi).
+ * Mock data records (e.g. specific expedition titles and descriptions) remain in English.
+ * In a production version, dynamic content translations would be fetched from a multi-lingual CMS / API backend.
+ */
 export const Home = () => {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
@@ -28,7 +35,6 @@ export const Home = () => {
       
       {/* Hero Section */}
       <section className="relative bg-ncpor-navy text-white overflow-hidden border-b border-slate-800">
-        {/* Subtle background overlay */}
         <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 relative z-10">
@@ -36,15 +42,15 @@ export const Home = () => {
             
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-950/80 border border-teal-700/60 text-teal-300 text-xs font-semibold">
               <Compass className="w-3.5 h-3.5 text-teal-400" />
-              <span>Ministry of Earth Sciences, Govt. of India</span>
+              <span>{t('home.badge')}</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-              PolarConnect: India's Polar & Ocean Science Knowledge Hub
+              {t('home.hero_title')}
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              Integrated scientific research repository, expedition logbooks, satellite datasets, and public science outreach curated by the National Centre for Polar and Ocean Research (NCPOR).
+              {t('home.hero_sub')}
             </p>
 
             {/* Main Search Bar */}
@@ -56,7 +62,7 @@ export const Home = () => {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search 150+ expedition reports, datasets, publications & media..."
+                    placeholder={t('home.search_placeholder')}
                     className="w-full pl-11 pr-4 py-3 bg-white text-slate-900 placeholder-slate-500 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
@@ -64,12 +70,12 @@ export const Home = () => {
                   type="submit"
                   className="px-6 py-3 bg-teal-600 hover:bg-teal-500 text-white font-semibold text-sm rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md shrink-0"
                 >
-                  <span>Search Archive</span>
+                  <span>{t('home.search_btn')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
               <div className="flex flex-wrap items-center gap-2 mt-3 text-xs text-slate-400">
-                <span className="font-semibold text-slate-300">Popular Queries:</span>
+                <span className="font-semibold text-slate-300">{t('home.popular_queries')}</span>
                 <button type="button" onClick={() => navigate('/repository?search=43rd')} className="hover:text-teal-300 underline">43rd IAE</button>
                 <span>•</span>
                 <button type="button" onClick={() => navigate('/repository?region=Arctic')} className="hover:text-teal-300 underline">Himadri Svalbard</button>
@@ -89,22 +95,22 @@ export const Home = () => {
             
             <div className="space-y-1">
               <p className="text-2xl sm:text-3xl font-extrabold text-teal-400 tracking-tight">150+</p>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Expedition Reports</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t('home.stat_reports')}</p>
             </div>
 
             <div className="space-y-1">
               <p className="text-2xl sm:text-3xl font-extrabold text-cyan-400 tracking-tight">500+</p>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Curated Datasets</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t('home.stat_datasets')}</p>
             </div>
 
             <div className="space-y-1">
               <p className="text-2xl sm:text-3xl font-extrabold text-sky-400 tracking-tight">2000+</p>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Media Files & Archives</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t('home.stat_media')}</p>
             </div>
 
             <div className="space-y-1">
               <p className="text-2xl sm:text-3xl font-extrabold text-emerald-400 tracking-tight">40+ Years</p>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Polar Research Heritage</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t('home.stat_heritage')}</p>
             </div>
 
           </div>
@@ -117,17 +123,17 @@ export const Home = () => {
           <div>
             <div className="flex items-center gap-2 text-xs font-bold text-teal-700 uppercase tracking-wider">
               <Database className="w-4 h-4" />
-              <span>National Knowledge Base</span>
+              <span>{t('home.featured_resources_tag')}</span>
             </div>
             <h2 className="text-2xl font-bold text-slate-900 tracking-tight mt-1">
-              Featured Research Resources
+              {t('home.featured_resources_title')}
             </h2>
           </div>
           <Link
             to="/repository"
             className="inline-flex items-center gap-1 text-sm font-semibold text-teal-700 hover:text-teal-900 transition-colors"
           >
-            <span>Browse Full Repository (15+ Items)</span>
+            <span>{t('home.browse_full_repo')}</span>
             <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
@@ -161,7 +167,7 @@ export const Home = () => {
                   to={`/repository/${item.id}`}
                   className="font-semibold text-teal-700 hover:underline flex items-center gap-1"
                 >
-                  <span>View Details</span>
+                  <span>{t('repository.view_details')}</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
@@ -176,10 +182,10 @@ export const Home = () => {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <span className="text-xs font-bold text-teal-400 uppercase tracking-wider">
-                Field Logistics & Research Stations
+                {t('home.active_stations_tag')}
               </span>
               <h2 className="text-2xl font-bold text-white tracking-tight mt-1">
-                India's Polar Presence Across 3 Continents
+                {t('home.active_stations_title')}
               </h2>
             </div>
             <Link
@@ -187,7 +193,7 @@ export const Home = () => {
               className="inline-flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white rounded-md text-xs font-semibold transition-colors shadow-xs"
             >
               <Compass className="w-4 h-4" />
-              <span>Open Interactive Expedition Map</span>
+              <span>{t('home.open_map_btn')}</span>
             </Link>
           </div>
 
@@ -229,17 +235,17 @@ export const Home = () => {
         <div className="flex items-center justify-between border-b border-slate-200 pb-4">
           <div>
             <span className="text-xs font-bold text-teal-700 uppercase tracking-wider">
-              Dissemination & Media
+              {t('home.outreach_tag')}
             </span>
             <h2 className="text-2xl font-bold text-slate-900 tracking-tight mt-1">
-              Latest Polar Science Stories
+              {t('home.outreach_title')}
             </h2>
           </div>
           <Link
             to="/media"
             className="inline-flex items-center gap-1 text-sm font-semibold text-teal-700 hover:text-teal-900"
           >
-            <span>View All Stories</span>
+            <span>{t('home.view_all_stories')}</span>
             <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
@@ -283,7 +289,7 @@ export const Home = () => {
                     to="/media"
                     className="font-bold text-teal-700 hover:underline flex items-center gap-1"
                   >
-                    <span>Read Article</span>
+                    <span>{t('media.read_article')}</span>
                     <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
@@ -297,12 +303,12 @@ export const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-ncpor-navy text-white rounded-xl p-8 sm:p-10 border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-lg">
           <div className="space-y-2 max-w-2xl relative z-10">
-            <span className="text-xs font-bold text-teal-400 uppercase tracking-wider">Open Government Data Policy</span>
+            <span className="text-xs font-bold text-teal-400 uppercase tracking-wider">{t('home.cta_tag')}</span>
             <h3 className="text-xl sm:text-2xl font-bold text-white">
-              Access 500+ Polar Datasets for Research & Academia
+              {t('home.cta_title')}
             </h3>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Explore CTD profiles, ice core temperature series, atmospheric radiation fluxes, and GIS bathymetric grids published under India's National Polar Data Policy.
+              {t('home.cta_sub')}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 shrink-0 relative z-10 w-full sm:w-auto">
@@ -310,13 +316,13 @@ export const Home = () => {
               to="/repository"
               className="px-6 py-3 bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs sm:text-sm rounded-lg text-center transition-colors shadow-xs"
             >
-              Explore Data Archive
+              {t('home.cta_btn_repo')}
             </Link>
             <Link
               to="/about"
               className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs sm:text-sm rounded-lg border border-slate-700 text-center transition-colors"
             >
-              About NCPOR
+              {t('home.cta_btn_about')}
             </Link>
           </div>
         </div>

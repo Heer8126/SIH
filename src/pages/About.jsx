@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Compass, ShieldCheck, Award, Layers, Users, BookOpen, Clock, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Compass, CheckCircle2 } from 'lucide-react';
 
 export const About = () => {
+  const { t } = useTranslation();
+
   const milestones = [
     { year: '1981', title: 'Maiden Antarctic Expedition', detail: 'India launches its first scientific expedition to Antarctica under the leadership of Dr. S.Z. Qasim.' },
     { year: '1983', title: 'Dakshin Gangotri Established', detail: 'Commissioning of India\'s first permanent Antarctic base on the ice shelf.' },
@@ -32,15 +35,15 @@ export const About = () => {
         <div className="max-w-3xl space-y-4 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-950/80 border border-teal-700/60 text-teal-300 text-xs font-semibold">
             <Compass className="w-3.5 h-3.5" />
-            <span>Autonomous R&D Institute • Ministry of Earth Sciences</span>
+            <span>{t('about.badge')}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-            National Centre for Polar and Ocean Research (NCPOR)
+            {t('about.title')}
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            NCPOR is India's premier nodal agency responsible for planning, coordinating, executing, and disseminating scientific research in the Polar Regions (Antarctica, Arctic, and the Himalayas) and the surrounding oceans.
+            {t('about.sub')}
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-medium text-slate-400">
@@ -56,9 +59,9 @@ export const About = () => {
       {/* Core Mission & Mandate */}
       <section className="space-y-6">
         <div className="border-b border-slate-200 pb-3">
-          <span className="text-xs font-bold text-teal-700 uppercase tracking-wider">Institutional Mandate</span>
+          <span className="text-xs font-bold text-teal-700 uppercase tracking-wider">{t('about.mandate_tag')}</span>
           <h2 className="text-2xl font-bold text-slate-900 tracking-tight mt-1">
-            Our Mission & Scientific Frontiers
+            {t('about.mandate_title')}
           </h2>
         </div>
 
@@ -98,9 +101,9 @@ export const About = () => {
       {/* Research Domains Grid */}
       <section className="space-y-6">
         <div className="border-b border-slate-200 pb-3">
-          <span className="text-xs font-bold text-teal-700 uppercase tracking-wider">Research Excellence</span>
+          <span className="text-xs font-bold text-teal-700 uppercase tracking-wider">{t('about.domains_tag')}</span>
           <h2 className="text-2xl font-bold text-slate-900 tracking-tight mt-1">
-            Core Scientific Research Domains
+            {t('about.domains_title')}
           </h2>
         </div>
 
@@ -121,9 +124,9 @@ export const About = () => {
       {/* Timeline Section */}
       <section className="space-y-6">
         <div className="border-b border-slate-200 pb-3">
-          <span className="text-xs font-bold text-teal-700 uppercase tracking-wider">Institutional Heritage</span>
+          <span className="text-xs font-bold text-teal-700 uppercase tracking-wider">{t('about.heritage_tag')}</span>
           <h2 className="text-2xl font-bold text-slate-900 tracking-tight mt-1">
-            Major Polar Science Milestones (1981 - Present)
+            {t('about.heritage_title')}
           </h2>
         </div>
 
@@ -131,9 +134,7 @@ export const About = () => {
           <div className="relative border-l-2 border-slate-200 ml-4 space-y-8 pl-6">
             {milestones.map((m, idx) => (
               <div key={idx} className="relative group">
-                {/* Dot */}
                 <div className="absolute -left-8 top-0.5 w-4 h-4 rounded-full bg-slate-900 border-2 border-white text-teal-400 group-hover:bg-teal-600 transition-colors" />
-                
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
                     <span className="px-2 py-0.5 rounded bg-teal-900 text-teal-200 text-xs font-mono font-bold">
@@ -151,11 +152,11 @@ export const About = () => {
         </div>
       </section>
 
-      {/* Public Engagement & Outreach Callout */}
+      {/* Public Engagement */}
       <section className="bg-slate-900 text-white rounded-2xl p-8 border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6 shadow-md">
         <div className="space-y-2 max-w-2xl">
           <span className="text-xs font-bold text-teal-400 uppercase tracking-wider">Public Outreach & Academia</span>
-          <h3 className="text-xl font-bold text-white">Student Polar Training & Research Fellowships</h3>
+          <h3 className="text-xl font-bold text-white">{t('about.fellowships_title')}</h3>
           <p className="text-xs text-slate-300 leading-relaxed">
             NCPOR actively encourages university researchers and postgraduate students to participate in polar science through MoES PACER fellowships and summer training programs.
           </p>
@@ -164,7 +165,7 @@ export const About = () => {
           to="/media"
           className="px-6 py-3 bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs rounded-lg shrink-0 shadow-xs"
         >
-          Explore Science Media Feed
+          {t('about.explore_media')}
         </Link>
       </section>
 
